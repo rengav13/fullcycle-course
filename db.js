@@ -27,8 +27,8 @@ module.exports = class Repository {
         await this.createSchema();
         console.log('Schema created with success.');
 
-        await this.seedDatabase();
-        console.log('Database has been populated.');
+        //await this.seedDatabase();
+        //console.log('Database has been populated.');
     }
 
     async createSchema() {
@@ -55,6 +55,10 @@ module.exports = class Repository {
 
     async findAllPeople() {
         return await this.execute('SELECT * FROM people;');
+    }
+
+    async savePerson(name) {
+        return await this.execute(`REPLACE INTO people (name) VALUES (\'${name}\');`);
     }
 
     async execute(sql) {

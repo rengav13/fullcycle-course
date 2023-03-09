@@ -1,2 +1,4 @@
 node_modules
-mysql
+
+mysql/*
+!mysql/.gitkeep

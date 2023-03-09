@@ -15,6 +15,43 @@ services:
       MYSQL_ROOT_PASSWORD: root
     networks:
       - node-network
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      interval: 2s
+      timeout: 1s
+      retries: 40
+
+  app:
+    build: 
+      context: .
+    image: rengav13/people-app
+    container_name: app
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    environment:
+      #PORT: 3000
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: nodedb
+    networks:
+      - node-network
+
+  proxy:
+    image: nginx:1.23.3
+    container_name: proxy
+    depends_on:
+      - app
+    ports:
+      - "8080:80"
+    environment:
+      DUMMY: DUMMY
+    volumes:
+      - ./nginx/:/etc/nginx/conf.d/
+    networks:
+      - node-network
 
 networks:
   node-network:
