@@ -1,3 +1,4 @@
+import Entity from "../../@shared/entity/entity.abstract";
 import ProductInterface from "./product.interface";
 
 export default class ProductB implements ProductInterface {
